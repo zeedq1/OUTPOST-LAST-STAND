@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111a17">
+  <title>OUTPOST: LAST STAND</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand"><span class="brand-mark">O</span><div><div class="eyebrow">FIELD OPERATIONS // 07</div><h1>OUTPOST <em>LAST STAND</em></h1></div></div>
+      <div class="header-right"><span class="live-dot"></span><span id="statusText">STANDBY</span><span class="build-tag">SOLO SURVIVAL</span></div>
+    </header>
+    <section class="game-frame">
+      <canvas id="gameCanvas" aria-label="Outpost Last Stand game area"></canvas>
+      <div class="canvas-vignette"></div>
+      <div class="top-hud" id="topHud">
+        <div class="hud-card objective-card"><span class="hud-label">CURRENT OBJECTIVE</span><strong id="objectiveText">SECURE THE PERIMETER</strong><span class="hud-sub" id="objectiveSub">Eliminate all hostiles</span></div>
+        <div class="hud-card wave-card"><span class="hud-label">OPERATION</span><strong>WAVE <b id="waveValue">01</b></strong><span class="hud-sub" id="enemyCount">HOSTILES: 0</span></div>
+        <div class="hud-card score-card"><span class="hud-label">FIELD SCORE</span><strong id="scoreValue">000000</strong><span class="hud-sub">BEST <b id="bestValue">000000</b></span></div>
+      </div>
+      <div class="bottom-hud" id="bottomHud">
+        <div class="operator-card">
+          <div class="operator-avatar">⌁</div><div class="operator-info"><span class="hud-label">OPERATOR</span><strong>RANGER-07</strong><div class="bar health-bar"><span id="healthFill"></span></div><span class="tiny-stat"><b id="healthText">100</b> / 100 HP</span></div>
+        </div>
+        <div class="weapon-card"><div class="weapon-top"><span class="hud-label" id="weaponType">SERVICE RIFLE</span><span class="ammo-status" id="ammoStatus">READY</span></div><div class="weapon-name" id="weaponName">M4 PATROL</div><div class="ammo-line"><strong id="ammoMag">30</strong><span>/</span><span id="ammoReserve">120</span><span class="ammo-caption">AMMO</span></div><div class="weapon-bottom"><span>R <b>RELOAD</b></span><span>1-3 <b>WEAPON</b></span></div></div>
+        <div class="right-hud"><div class="mini-wrap"><div class="mini-label">TACTICAL MAP</div><canvas id="minimap" width="160" height="112"></canvas></div><div class="cash-card"><span class="hud-label">SUPPLY CREDITS</span><strong>¢ <b id="creditsValue">0</b></strong><span class="hud-sub">B <b>FIELD SHOP</b></span></div></div>
+      </div>
+      <div id="toast" class="toast"></div>
+      <div id="screenStart" class="screen active">
+        <div class="start-layout"><div class="start-copy"><div class="eyebrow"><span class="tiny-line"></span> OPERATION IRONWOOD</div><h2>HOLD THE<br><em>LINE.</em></h2><p class="lead">Your outpost is surrounded. Hold the perimeter, manage your ammunition, and make every shot count.</p><div class="feature-row"><span>01 <b>TACTICAL COMBAT</b></span><span>02 <b>WAVE SURVIVAL</b></span><span>03 <b>FIELD UPGRADES</b></span></div><button id="startBtn" class="action-btn">DEPLOY OPERATOR <span>↗</span></button><p class="microcopy">SINGLE PLAYER · NO INSTALLATION REQUIRED</p></div><div class="briefing-card"><div class="briefing-head"><span>MISSION BRIEFING</span><span class="status-pill">CLASSIFIED</span></div><div class="brief-row"><span>AREA</span><b>IRONWOOD OUTPOST</b></div><div class="brief-row"><span>THREAT LEVEL</span><b class="danger">ESCALATING</b></div><div class="brief-row"><span>SUPPORT</span><b>NONE AVAILABLE</b></div><div class="brief-divider"></div><div class="briefing-note"><span class="note-icon">!</span><p><b>FIELD NOTE</b><br>Hostiles grow stronger each wave. Recover supplies, buy upgrades, and use cover.</p></div><div class="briefing-foot"><span>FIELD MANUAL / 01</span><span>V. 1.0.0</span></div></div></div>
+      </div>
+      <div id="screenPause" class="screen"><div class="modal-card compact"><div class="eyebrow">FIELD CONTROL</div><h2>MISSION <em>PAUSED</em></h2><p>Take a breath. The perimeter will be here when you're ready.</p><button id="resumeBtn" class="action-btn full">RESUME OPERATION <span>↗</span></button><button id="restartBtn" class="secondary-btn full">RESTART MISSION</button><div class="controls-grid"><span><b>W A S D</b> Move</span><span><b>MOUSE</b> Aim / Fire</span><span><b>SPACE</b> Dash</span><span><b>R</b> Reload</span><span><b>1 / 2 / 3</b> Weapons</span><span><b>B</b> Field shop</span></div></div></div>
+      <div id="screenShop" class="screen"><div class="modal-card shop-modal"><div class="eyebrow">SUPPLY DEPOT // SECURE CHANNEL</div><h2>FIELD <em>REQUISITIONS</em></h2><p class="shop-intro">Spend supply credits on kit. Upgrades stay with you until the mission ends.</p><div class="credit-banner">AVAILABLE CREDITS <strong>¢ <b id="shopCredits">0</b></strong></div><div class="shop-grid" id="shopGrid"></div><div class="shop-footer"><span>ESC / B TO CLOSE</span><button id="closeShopBtn" class="action-btn">RETURN TO FIELD <span>↗</span></button></div></div></div>
+      <div id="screenWave" class="screen"><div class="modal-card compact"><div class="eyebrow">PERIMETER SECURED</div><div class="wave-badge">✓</div><h2>WAVE <em id="clearedWave">01</em> CLEARED</h2><p id="waveSummary">The area is secure. Resupply and prepare for the next push.</p><div class="reward-row"><div><span>WAVE BONUS</span><strong>+¢ <b id="waveReward">120</b></strong></div><div><span>ELIMINATIONS</span><strong id="waveKills">0</strong></div></div><button id="nextWaveBtn" class="action-btn full">DEPLOY NEXT WAVE <span>↗</span></button><button id="waveShopBtn" class="secondary-btn full">VISIT SUPPLY DEPOT · B</button></div></div>
+      <div id="screenGameOver" class="screen"><div class="modal-card compact"><div class="eyebrow">SIGNAL LOST // OPERATION ENDED</div><h2>OUTPOST <em>FALLEN.</em></h2><p>The line was breached, operator. Review your record and redeploy when ready.</p><div class="final-stats"><div><span>FINAL SCORE</span><strong id="finalScore">0</strong></div><div><span>WAVE REACHED</span><strong id="finalWave">1</strong></div><div><span>HOSTILES DOWN</span><strong id="finalKills">0</strong></div></div><div id="recordNotice" class="record-notice"></div><button id="playAgainBtn" class="action-btn full">REDEPLOY <span>↗</span></button><p class="microcopy">NO SOLDIER LEFT BEHIND. RESET AND RETURN.</p></div></div>
+    </section>
+    <footer class="site-footer"><span>OUTPOST FIELD SYSTEMS <i>•</i> OPERATION IRONWOOD</span><span>WASD MOVE <i>•</i> MOUSE FIRE <i>•</i> SPACE DASH <i>•</i> ESC PAUSE</span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
